@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
 import CanvasLoader from "../Loader";
@@ -36,8 +36,6 @@ const ComputersCanvas = () => {
     // ! Quiero saber si el dispositivo es menor a 500px
     const mediaQuery = window.matchMedia("(max-width:500px)");
 
-    setIsMobile(mediaQuery.matches);
-
     const handleMediaQueryMatches = (event) => {
       setIsMobile(event.matches);
     };
@@ -53,18 +51,19 @@ const ComputersCanvas = () => {
     <Canvas
       frameloop="demand"
       shadows
+      dpr={[1, 2]}
       camera={{ position: [20, 3, 5], fov: 25 }}
       gl={{ preserveDrawingBuffer: true }}
     >
-      <Suspense fallback={<CanvasLoader />}>
-        <OrbitControls
+      <Suspense>
+        {/* <OrbitControls
           enableZoom={false}
-          maxPolarAngle={Math.PI / 2.5}
-          minPolarAngle={Math.PI / 2.5}
-        />
+          maxPolarAngle={Math.PI / 2}
+          minPolarAngle={Math.PI / 2}
+        /> */}
         <Computers isMobile={isMobile} />
       </Suspense>
-      <Preload all />
+      {/* <Preload all /> */}
     </Canvas>
   );
 };

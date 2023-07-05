@@ -3,7 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
 import CanvasLoader from "../Loader";
 
-const Computers = () => {
+const Computers = ({ isMobile }) => {
   const computer = useGLTF("./tron_character/scene.gltf");
 
   return (
@@ -20,7 +20,7 @@ const Computers = () => {
       />
       <primitive
         object={computer.scene}
-        scale={0.005}
+        scale={isMobile ? 0.003 : 0.005}
         position={[0, -3.25, -1.5]}
         rotation={[0, 1.3, 0]}
       />
@@ -29,6 +29,26 @@ const Computers = () => {
 };
 
 const ComputersCanvas = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  // ! useEffect es como un onMounted
+  useEffect(() => {
+    // ! Quiero saber si el dispositivo es menor a 500px
+    const mediaQuery = window.matchMedia("(max-width:500px)");
+
+    setIsMobile(mediaQuery.matches);
+
+    const handleMediaQueryMatches = (event) => {
+      setIsMobile(event.matches);
+    };
+
+    mediaQuery.addEventListener("change", handleMediaQueryMatches);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleMediaQueryMatches);
+    };
+  }, []);
+
   return (
     <Canvas
       frameloop="demand"
@@ -42,7 +62,7 @@ const ComputersCanvas = () => {
           maxPolarAngle={Math.PI / 2.5}
           minPolarAngle={Math.PI / 2.5}
         />
-        <Computers />
+        <Computers isMobile={isMobile} />
       </Suspense>
       <Preload all />
     </Canvas>

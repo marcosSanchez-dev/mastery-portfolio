@@ -24,6 +24,7 @@ const ServiceCard = ({ index, title, icon }) => {
               alt="web-development"
               className="w-16 h-16 object-contain"
             />
+            <h1>{title}</h1>
           </div>
         </motion.div>
       </Tilt>

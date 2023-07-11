@@ -12,8 +12,43 @@ const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {};
-  const handleSubmit = (e) => {};
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    //! ...form esta creando un nuevo objeto con los valores que el objeto "form" original ya tiene. Y este nuevo objeto es asignado al form de useState
+    setForm({ ...form, [name]: value });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    emailjs
+      .send(
+        "service_vk8c5ca",
+        "template_u6nts8m",
+        {
+          from_name: form.name,
+          to_name: "Marcos",
+          from_email: form.email,
+          to_email: "marcos.sanchez.dev@gmail.com",
+          message: form.message,
+        },
+        "1fowVNIopusD-tvTH"
+      )
+      .then(
+        () => {
+          setLoading(false);
+          alert("Gracias!");
+
+          setForm({ name: "", email: "", message: "" });
+        },
+        (error) => {
+          setLoading(false);
+          console.log("error: ", error);
+          alert("hubo un error");
+        }
+      );
+  };
 
   return (
     <div
@@ -69,7 +104,7 @@ const Contact = () => {
             type="submit"
             className="bg-tertiary py-3 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-md shadow-primary"
           >
-            {loading ? "Sending..." : "Send!"}
+            {loading ? "Sending..." : "Send message"}
           </button>
         </form>
       </motion.div>

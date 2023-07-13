@@ -24,7 +24,6 @@ const Navbar = () => {
           {/* <>active: {active}</> */}
           <img src={logo} alt="logo" className="w-52  object-contain" />
           <p className="text-white text-{18px} font-bold cursor-pointer flex">
-            Title &nbsp;
             <span className="sm:block hidden">|&nbsp; Portfolio showcase</span>
           </p>
         </Link>

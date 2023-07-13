@@ -22,7 +22,7 @@ const Computers = ({ isMobile }) => {
         <primitive
           object={computer.scene}
           scale={isMobile ? 0.003 : 0.002}
-          position={[0, -3.25, -0.2]}
+          position={[2, -1.25, -0.5]}
           rotation={[0, 1.3, 0]}
         />
       </mesh>
@@ -70,21 +70,12 @@ const ComputersCanvas = () => {
 
   return (
     <Canvas
-      frameloop="demand"
       shadows
       dpr={[1, 2]}
       camera={{ position: [20, 3, 5], fov: 25 }}
       gl={{ preserveDrawingBuffer: true }}
     >
       <Suspense fallback={<CanvasLoader />}>
-        {!isMobile ? (
-          <OrbitControls
-            enableZoom={false}
-            maxPolarAngle={Math.PI / 2}
-            minPolarAngle={Math.PI / 2}
-          />
-        ) : null}
-
         <Computers isMobile={isMobile} />
       </Suspense>
       <Preload all />
